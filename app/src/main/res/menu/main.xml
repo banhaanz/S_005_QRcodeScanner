@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.me.s_003_testsqlite.MainActivity">
+
+    <item
+        android:id="@+id/excel_import_btn"
+        android:icon="@android:drawable/ic_menu_upload_you_tube"
+        android:orderInCategory="100"
+        android:title="Edit"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/excel_delete_btn"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:orderInCategory="100"
+        android:title="add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/excel_export_btn"
+        android:icon="@android:drawable/ic_menu_more"
+        android:orderInCategory="100"
+        android:title="add"
+        app:showAsAction="always" />
+</menu>

@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">S_005_QRcodeScanner</string>
+    <string name="lorem_long_1">1</string>
+    <string name="lorem_long_2">2</string>
+    <string name="lorem_long_3">3</string>
+    <string name="lorem_long_4">4</string>
+    <string name="lorem_long_5">5</string>
+    <string name="gridview_item_x">1</string>
+    <string name="red">red</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
+    <string name="orange">orange</string>
+    <string name="return_to_home">return to home</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="start_scanner">start scanner</string>
+    <string name="scan_barcode">Scan Barcode</string>
+    <string name="read_qr_code_result">Read QR Code result :</string>
+    <string name="logo">LOGO</string>
+    <string name="no_barcode_detected">No Barcode Detected</string>
+    <string name="scan_qr_code_bar_code">SCAN QR CODE / BAR CODE</string>
+    <string name="test">TEST</string>
+    <string name="sample_title">Sample Title</string>
+    <string name="sample_description_for_the_given_title">Sample Description for the given title</string>
+    <string name="img01">imageLogo</string>
+    <string name="import_title">Import Data</string>
+    <string name="import_msg">Are you sure to import data?</string>
+    <string name="delete_title">Delete Data</string>
+    <string name="delete_msg">Are you sure to delete all data?</string>
+    <string name="delete_complete">Data have been deleted.</string>
+    <string name="URL_LOGO">https://banhaanz.github.io/resources/img/logo_4x4_md.png</string>
+    <string name="txt_no_data">No imported data.</string>
+    <string name="txt_importing_data">Importing data...</string>
+
+</resources>
