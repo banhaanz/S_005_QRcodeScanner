@@ -30,5 +30,12 @@
     <string name="URL_LOGO">https://banhaanz.github.io/resources/img/logo_4x4_md.png</string>
     <string name="txt_no_data">No imported data.</string>
     <string name="txt_importing_data">Importing data...</string>
+    <string name="test_ok">TEST OK</string>
+    <string name="test_no_ok">TEST NO OK</string>
+    <string name="barcode_scanner_started">Barcode scanner started.</string>
+    <string name="msg_getdata">GET DATA</string>
+    <string name="msg_add_mail_content">ADD CONTENT TO THE MAIL</string>
+    <string name="msg_scanner_stoped">Barcode scanner has been stopped.</string>
+    <string name="error_download_excel">Error in Downloading Excel File</string>
 
 </resources>

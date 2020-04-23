@@ -1,5 +1,6 @@
 package com.me.s_005_qrcodescanner.activities;
 
+import androidx.annotation.ArrayRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +35,7 @@ import java.util.List;
 public class ExcelActivity extends AppCompatActivity {
     Workbook workbook;
     AsyncHttpClient asyncHttpClient;
-    List<String> storyTitle,storyContent,thumbImages;
+    List<String> status,number,storyTitle,storyContent,thumbImages;
     RecyclerView recyclerView;
     ExcelImportAdapter adapter;
     ProgressBar progressBar;
@@ -57,15 +58,17 @@ public class ExcelActivity extends AppCompatActivity {
         back2homeBtn();
 
         String URL = "https://banhaanz.github.io/resources/story.xls";
+        number = new ArrayList<>();
         storyTitle = new ArrayList<>();
         storyContent = new ArrayList<>();
         thumbImages = new ArrayList<>();
+        status = new ArrayList<>();
 
         asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.get(URL, new FileAsyncHttpResponseHandler(this) {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                Toast.makeText(ExcelActivity.this, "Error in Downloading Excel File", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExcelActivity.this, getString(R.string.error_download_excel), Toast.LENGTH_SHORT).show();
                 wait.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
             }
@@ -86,8 +89,10 @@ public class ExcelActivity extends AppCompatActivity {
                         for(int i = 1;i< sheet.getRows();i++){
                             Cell[] row = sheet.getRow(i);
                             storyTitle.add(row[0].getContents());
-                            storyContent.add(i + " | COIL NO: " + row[1].getContents());
+                            storyContent.add(row[1].getContents());
                             thumbImages.add(row[2].getContents());
+                            number.add(row[3].getContents()+i);
+                            status.add(row[4].getContents());
                         }
 
                         //record to DB
@@ -97,6 +102,8 @@ public class ExcelActivity extends AppCompatActivity {
                             dataSource.setTitle(storyTitle.get(i));
                             dataSource.setData(storyContent.get(i));
                             dataSource.setUrl(thumbImages.get(i));
+                            dataSource.setNumber(number.get(i));
+                            dataSource.setStatus(status.get(i));
 
                             dbHelper.addDataSource(dataSource);
                         }
@@ -113,7 +120,7 @@ public class ExcelActivity extends AppCompatActivity {
 
     private void showData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExcelImportAdapter(this,storyTitle,storyContent,thumbImages);
+        adapter = new ExcelImportAdapter(this,number,storyTitle,thumbImages,storyContent,status);
         recyclerView.setAdapter(adapter);
     } //showData
 

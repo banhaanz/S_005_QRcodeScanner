@@ -24,12 +24,14 @@ import java.util.List;
         @Override
         public void onCreate(SQLiteDatabase db) {
             String CREATE_DATASOURCE_TABLE = String.format("CREATE TABLE %s " +
-                            "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT)",
+                            "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT , %s TEXT)",
                     DataSource.TABLE,
                     DataSource.Column.ID,
                     DataSource.Column.TITLE,
                     DataSource.Column.DATA,
-                    DataSource.Column.URL);
+                    DataSource.Column.URL,
+                    DataSource.Column.NUMBER,
+                    DataSource.Column.STATUS);
 
             Log.i(TAG, CREATE_DATASOURCE_TABLE);
 
@@ -54,6 +56,8 @@ import java.util.List;
             List<String> title = new ArrayList<>();
             List<String> data = new ArrayList<>();
             List<String> url = new ArrayList<>();
+            List<String> number = new ArrayList<>();
+            List<String> status = new ArrayList<>();
 
             //ask to permission to be writable database
             sqLiteDatabase = this.getWritableDatabase();
@@ -66,16 +70,19 @@ import java.util.List;
 
             assert cursor != null;
             while (!cursor.isAfterLast()){
-                //dataList.add(cursor.getLong(0) + " " + cursor.getString(1) + " " + cursor.getString(2) + " " + cursor.getString(3));
                 id.add(cursor.getString(0));
                 title.add(cursor.getString(1));
                 data.add(cursor.getString(2));
                 url.add(cursor.getString(3));
+                number.add(cursor.getString(4));
+                status.add(cursor.getString(5));
 
                 dataList.setId(id);
                 dataList.setTitle(title);
                 dataList.setData(data);
                 dataList.setUrl(url);
+                dataList.setNumber(number);
+                dataList.setStatus(status);
 
                 cursor.moveToNext();
             }
@@ -93,6 +100,8 @@ import java.util.List;
             values.put(DataSource.Column.TITLE,dataSource.getTitle());
             values.put(DataSource.Column.DATA,dataSource.getData());
             values.put(DataSource.Column.URL,dataSource.getUrl());
+            values.put(DataSource.Column.NUMBER,dataSource.getNumber());
+            values.put(DataSource.Column.STATUS,dataSource.getStatus());
 
             sqLiteDatabase.insert(DataSource.TABLE,null,values);
             sqLiteDatabase.close();

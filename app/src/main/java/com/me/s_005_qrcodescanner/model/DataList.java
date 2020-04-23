@@ -7,6 +7,8 @@ public class DataList {
     private List<String> title;
     private List<String> data;
     private List<String> url;
+    private List<String> number;
+    private List<String> status;
 
     public List<String> getId() {
         return id;
@@ -38,5 +40,21 @@ public class DataList {
 
     public void setUrl(List<String> url) {
         this.url = url;
+    }
+
+    public List<String> getNumber() {
+        return number;
+    }
+
+    public void setNumber(List<String> number) {
+        this.number = number;
+    }
+
+    public List<String> getStatus() {
+        return status;
+    }
+
+    public void setStatus(List<String> status) {
+        this.status = status;
     }
 }

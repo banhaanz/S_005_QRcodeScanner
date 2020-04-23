@@ -17,7 +17,6 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
-import com.me.s_005_qrcodescanner.MainActivity;
 import com.me.s_005_qrcodescanner.R;
 
 import java.io.IOException;
@@ -32,8 +31,7 @@ public class QRScannerActivity extends AppCompatActivity {
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-    Button btnAction;
-    Button btnTest;
+    Button btnAction,btnTest,btnTestNoOK;
     String intentData = "";
     boolean isEmail = false;
 
@@ -49,11 +47,45 @@ public class QRScannerActivity extends AppCompatActivity {
     private void initView(){
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
-        btnAction = findViewById(R.id.btnAction);
 
         //add test_btn for testing some functions
+        btnTestNoOkClicked();
         btnTestClicked();
+        btnScanned();
 
+
+    } // initView
+
+    public void btnTestClicked(){
+        btnTest = findViewById(R.id.btnTestOK);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(QRScannerActivity.this,ListdataActivity.class);
+                homeIntent.putExtra("QRcode","028781D0L");
+                homeIntent.putExtra("status",1);
+                startActivity(homeIntent);
+                finish();
+            }
+        });
+    }  //btnTestClicked()
+
+    public void btnTestNoOkClicked(){
+        btnTest = findViewById(R.id.btnTestNoOK);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(QRScannerActivity.this,ListdataActivity.class);
+                homeIntent.putExtra("QRcode","aaaaa");
+                homeIntent.putExtra("status",1);
+                startActivity(homeIntent);
+                finish();
+            }
+        });
+    }  //btnTestNoOkClicked()
+
+    public void btnScanned(){
+        btnAction = findViewById(R.id.btnAction);
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,8 +94,7 @@ public class QRScannerActivity extends AppCompatActivity {
                     } else {
                         //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                         Intent homeIntent = new Intent(QRScannerActivity.this, ListdataActivity.class);
-                        //homeIntent.putExtra("data",intentData);
-                        homeIntent.putExtra("QRcode","test");
+                        homeIntent.putExtra("QRcode",intentData);
                         homeIntent.putExtra("status",1);
                         startActivity(homeIntent);
                         finish();
@@ -71,24 +102,10 @@ public class QRScannerActivity extends AppCompatActivity {
                 } //if intentData
             } //onClick
         }); //btnAction.setOnClickListener
-    } // initView
-
-    public void btnTestClicked(){
-        btnTest = findViewById(R.id.btnTest);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent homeIntent = new Intent(QRScannerActivity.this,MainActivity.class);
-                homeIntent.putExtra("data","https://tinyurl.com/y5eaeflm");
-                homeIntent.putExtra("status",1);
-                startActivity(homeIntent);
-                finish();
-            }
-        });
-    }  //btnTestClicked()
+    }
 
     private void initDetectorAndSource(){
-        Toast.makeText(getApplicationContext(),"Barcode scanner started",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),getString(R.string.barcode_scanner_started),Toast.LENGTH_SHORT).show();
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
@@ -127,7 +144,7 @@ public class QRScannerActivity extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "Stopped barcode scanner", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.msg_scanner_stoped), Toast.LENGTH_SHORT).show();
             }  //release
 
             @Override
@@ -143,10 +160,10 @@ public class QRScannerActivity extends AppCompatActivity {
                                 intentData = barcodes.valueAt(0).email.address;
                                 txtBarcodeValue.setText(intentData);
                                 isEmail = true;
-                                btnAction.setText("ADD CONTENT TO THE MAIL");
+                                btnAction.setText(getString(R.string.msg_add_mail_content));
                             }else {
                                 isEmail = false;
-                                btnAction.setText("GET DATA");
+                                btnAction.setText(getString(R.string.msg_getdata));
                                 intentData = barcodes.valueAt(0).displayValue;
                                 txtBarcodeValue.setText(intentData);
                             }
