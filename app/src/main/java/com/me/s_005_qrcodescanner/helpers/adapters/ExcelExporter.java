@@ -48,6 +48,7 @@ public class ExcelExporter {
             sheetA.setColumnView(1,16);
             sheetA.setColumnView(2,16);
             sheetA.setColumnView(3,12);
+            sheetA.setColumnView(4,12);
 
 
             for(int i=0;i<col1.size();i++){
