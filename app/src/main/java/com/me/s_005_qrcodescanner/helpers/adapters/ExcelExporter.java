@@ -41,7 +41,7 @@ public class ExcelExporter {
             //Excel sheetA first sheetA
             WritableSheet sheetA = workbook.createSheet("Steel Checklist",0);
 
-            List<String> col1 = Arrays.asList("NO.","OWNER CODE","COIL NO.","STATUS");
+            List<String> col1 = Arrays.asList("NO.","OWNER CODE","COIL NO.","SCANNED","STATUS");
             List<String> row1 = Arrays.asList("row1","row1","row1","row1","row1");
 
             sheetA.setColumnView(0,6);
@@ -57,7 +57,8 @@ public class ExcelExporter {
                 sheetA.addCell(new Label(0,i+1,String.valueOf(i+1)));
                 sheetA.addCell(new Label(1,i+1,title.get(i)));
                 sheetA.addCell(new Label(2,i+1,data.get(i)));
-                sheetA.addCell(new Label(3,i+1,status.get(i)));
+                sheetA.addCell(new Label(3,i+1,String.valueOf(0)));
+                sheetA.addCell(new Label(4,i+1,status.get(i)));
             }
 
             //column and row titles
