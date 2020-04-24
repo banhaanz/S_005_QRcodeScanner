@@ -11,8 +11,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ListdataActivity"/>
         <activity android:name=".activities.ExcelActivity" />
-        <activity android:name=".activities.customviews.ListViewProductGroupAc" />
-        <activity android:name=".activities.customviews.ListViewGroupAc" />
         <activity android:name=".activities.QRScannerActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -28,5 +26,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

@@ -1,24 +1,25 @@
 package com.me.s_005_qrcodescanner.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import jxl.biff.SheetRangeImpl;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.me.s_005_qrcodescanner.MainActivity;
 import com.me.s_005_qrcodescanner.R;
 import com.me.s_005_qrcodescanner.helpers.DBHelper;
 import com.me.s_005_qrcodescanner.helpers.adapters.ExcelImportAdapter;
-import com.me.s_005_qrcodescanner.helpers.publics.AppUtils;
 import com.me.s_005_qrcodescanner.model.DataList;
 import com.me.s_005_qrcodescanner.model.DataSource;
 
@@ -32,6 +33,7 @@ public class ListdataActivity extends AppCompatActivity {
     ExcelImportAdapter adapter;
     ProgressBar progressBar;
     DataSource dataSource;
+    DBHelper dbHelper;
     TextView wait;
     String QRCode;
     int status;
@@ -47,7 +49,7 @@ public class ListdataActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         wait = findViewById(R.id.wait);
 
-        DBHelper dbHelper = new DBHelper(this);
+        dbHelper = new DBHelper(this);
         dataList = dbHelper.getDataList();
 
         //get Extra from other Intents
@@ -68,6 +70,7 @@ public class ListdataActivity extends AppCompatActivity {
             url = new ArrayList<>();
             number = new ArrayList<>();
             status1 = new ArrayList<>();
+
             title = dataList.getTitle();
             data = dataList.getData();
             url = dataList.getUrl();
@@ -91,7 +94,35 @@ public class ListdataActivity extends AppCompatActivity {
                 Toast.makeText(getApplication(), getString(R.string.txt_no_data),Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    } //onCreate
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_list_data,menu);
+        return true;
+    } //onCreateOptionsMenu
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListdataActivity.this);
+        switch (id){
+            case R.id.show_itemChecked_btn:
+                Toast.makeText(getApplication(),"show checked items. ",Toast.LENGTH_SHORT).show();
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                break;
+            case R.id.show_itemUnchecked_btn:
+                Toast.makeText(getApplication(),"Show unchecked items.",Toast.LENGTH_SHORT).show();
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                break;
+            case R.id.show_all_btn:
+                Toast.makeText(getApplication(),"Show all items",Toast.LENGTH_SHORT).show();
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    } //onOptionsItemSelected
+
 
     private void go2QRScannerPageBtn(){
         btnScanBarCode = findViewById(R.id.startScanBtn);
@@ -110,19 +141,48 @@ public class ListdataActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     } //showData
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceType"})
     public void checkGetIntent(){
-        String coilCheck = QRCode;
-        if(coilCheck != null){
+        String coilCheck1 = QRCode;
+        String statusCheck = String.valueOf(status);
+        if(coilCheck1 != null){
+            //String coilCheck = coilCheck1.substring(3,14).trim();
+            String[] coilCheck2 = coilCheck1.trim().split("\\s+");
+            String coilCheck = coilCheck2[0];
+
             int o = 0; //counter number
-            for(int i=0; i<dataList.getData().size();i++){
-                if(coilCheck.equals(dataList.getData().get(i))){
-                    Toast.makeText(getApplication(), coilCheck + " : OK ",Toast.LENGTH_SHORT).show();
+
+            //Loop for checking List which QRCode = title data
+            for(int i=0; i<dataList.getTitle().size();i++){
+                if(coilCheck.equals("捆包："+dataList.getTitle().get(i))){
+                    String img_checked = "https://banhaanz.github.io/resources/img/GIcoil-1.jpg";
+                    //get ID of update data
+                    String id = dataList.getId().get(i);
+
+                    List<String> img = dataList.getUrl();
+                    img.set(i,img_checked);
+                    String img2 = dataList.getUrl().get(i);
+
+                    //get Status of update data
+                    List<String> e = dataList.getStatus();
+                    //update data
+                    e.set(i,statusCheck);
+                    //re=assign Status value
+                    String b = dataList.getStatus().get(i);
+
+
+                    //set Status value & update DB
+                    dataSource.setUrl(img2);
+                    dataSource.setStatus(b);
+                    dbHelper.updateDataSource(dataSource,id);
+
+                    Toast.makeText(getApplication(), coilCheck + " : OK / Status=" + id,Toast.LENGTH_SHORT).show();
                     o++; //if 'OK', counter number(o) +1
+
                 }
             }
             if(o==0){
-                Toast.makeText(getApplication(), coilCheck + " : NO OK ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), coilCheck + " : NO OK",Toast.LENGTH_SHORT).show();
             }
         }
     } //checkGetIntent()

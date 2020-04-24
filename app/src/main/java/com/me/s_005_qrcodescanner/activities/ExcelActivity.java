@@ -11,6 +11,7 @@ import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -57,7 +58,9 @@ public class ExcelActivity extends AppCompatActivity {
         //show scan QRCode/Barcode btn
         back2homeBtn();
 
-        String URL = "https://banhaanz.github.io/resources/story.xls";
+        //String URL = "https://banhaanz.github.io/resources/story.xls"; 1
+        String URL = "https://banhaanz.github.io/resources/ISTEEL.xls";
+        final String image = "https://banhaanz.github.io/resources/img/GIcoil.jpg";
         number = new ArrayList<>();
         storyTitle = new ArrayList<>();
         storyContent = new ArrayList<>();
@@ -88,11 +91,20 @@ public class ExcelActivity extends AppCompatActivity {
 
                         for(int i = 1;i< sheet.getRows();i++){
                             Cell[] row = sheet.getRow(i);
+                            /* 1
                             storyTitle.add(row[0].getContents());
                             storyContent.add(row[1].getContents());
                             thumbImages.add(row[2].getContents());
                             number.add(row[3].getContents()+i);
                             status.add(row[4].getContents());
+                             */
+                            if(!row[1].getContents().isEmpty() || !row[2].getContents().isEmpty()) {
+                                storyTitle.add(row[1].getContents());
+                                storyContent.add(row[2].getContents());
+                                thumbImages.add(image);
+                                number.add("" + i);
+                                status.add("0");
+                            }
                         }
 
                         //record to DB

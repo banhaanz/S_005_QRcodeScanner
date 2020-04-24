@@ -2,23 +2,23 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.me.s_005_qrcodescanner.MainActivity">
+    tools:context="com.me.s_005_qrcodescanner.activities.ListdataActivity">
 
     <item
-        android:id="@+id/excel_import_btn"
-        android:icon="@android:drawable/ic_menu_upload_you_tube"
+        android:id="@+id/show_itemChecked_btn"
+        android:icon="@android:drawable/checkbox_on_background"
         android:orderInCategory="100"
         android:title="Edit"
         app:showAsAction="always" />
     <item
-        android:id="@+id/excel_delete_btn"
-        android:icon="@android:drawable/ic_delete"
+        android:id="@+id/show_itemUnchecked_btn"
+        android:icon="@android:drawable/checkbox_off_background"
         android:orderInCategory="100"
         android:title="add"
         app:showAsAction="always" />
     <item
-        android:id="@+id/excel_export_btn"
-        android:icon="@android:drawable/ic_menu_more"
+        android:id="@+id/show_all_btn"
+        android:icon="@android:drawable/ic_menu_agenda"
         android:orderInCategory="100"
         android:title="add"
         app:showAsAction="always" />

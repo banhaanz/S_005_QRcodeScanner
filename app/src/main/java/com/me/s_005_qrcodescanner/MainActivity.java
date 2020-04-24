@@ -1,15 +1,16 @@
 package com.me.s_005_qrcodescanner;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,50 +18,34 @@ import com.me.s_005_qrcodescanner.activities.ExcelActivity;
 import com.me.s_005_qrcodescanner.activities.ListdataActivity;
 import com.me.s_005_qrcodescanner.activities.QRScannerActivity;
 import com.me.s_005_qrcodescanner.helpers.DBHelper;
-import com.me.s_005_qrcodescanner.helpers.publics.AppUtils;
-import com.me.s_005_qrcodescanner.model.Product;
+import com.me.s_005_qrcodescanner.helpers.adapters.ExcelExporter;
+import com.me.s_005_qrcodescanner.model.DataList;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
     Button btnScanBarCode,dataSelect_btn;
     TextView txtResult;
-    List<Product> productList;
-    ListView dataList;
     DBHelper dbHelper;
-    private int ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dataList = findViewById(R.id.dataList);
-
         //show Logo
         showLogo();
 
         //check get Intent and getExtra
-        checkGetIntent();
         go2ListDataPageBtn();
-        go2QRScannerPageBtn();
 
     }  // onCreate
-
-    private void go2QRScannerPageBtn(){
-        btnScanBarCode = findViewById(R.id.testBtn);
-        btnScanBarCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent scanIntent = new Intent(MainActivity.this, QRScannerActivity.class);
-                startActivity(scanIntent);
-            }
-        });
-    }  //go2QRScannerPageBtn()
 
 
     private void go2ListDataPageBtn(){
@@ -135,34 +120,43 @@ public class MainActivity extends AppCompatActivity {
                 builder.show();
                 break;
             case R.id.excel_export_btn:
-                Toast.makeText(getApplication(),"Clicked export_btn",Toast.LENGTH_SHORT).show();
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                dbHelper = new DBHelper(getApplicationContext());
+                DataList dataList = dbHelper.getDataList();
+                List<String> title = dataList.getTitle();
+                List<String> data = dataList.getData();
+                List<String> status = dataList.getStatus();
+                askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,200);
+                askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 200);
+                ExcelExporter.export(title,data,status);
+                Toast.makeText(getApplicationContext(),"Exported at sdcard/iStoreApp/ISTEEL-checked.xls",Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
     } //onOptionsItemSelected
 
-    @SuppressLint("SetTextI18n")
-    public void checkGetIntent(){
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            txtResult = findViewById(R.id.txtResult);
-            String txt = bundle.getString("data");
-            int ok = bundle.getInt("status");
+    //export excel method
+    private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission)
+                != PackageManager.PERMISSION_GRANTED) {
 
-            //check text is equal
-            for (int i = 0; i < productList.size(); i++) {
-                assert txt != null;
-                if(txt.equals(productList.get(i).getQrscan())) {
-                    productList.get(i).setStatus(ok);
-                    txtResult.setText(txt + " : OK \n Status : " + productList.get(i).getStatus() );
-                }else {
-                    txtResult.setText(txt + " : NO OK\n Status : " + productList.get(i).getStatus());
-                } //if else
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    MainActivity.this, permission)) {
 
-            }  //for
-        }  //if
-    }  //checkGetIntent
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{permission}, requestCode);
+
+            } else {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{permission}, requestCode);
+            }
+        } else {
+//            Toast.makeText(this, permission + " is already granted.",
+//                    Toast.LENGTH_SHORT).show();
+        }
+    }//askForPermission
 
     //
     private void showLogo(){

@@ -62,7 +62,8 @@ public class QRScannerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent homeIntent = new Intent(QRScannerActivity.this,ListdataActivity.class);
-                homeIntent.putExtra("QRcode","028781D0L");
+                homeIntent.putExtra("QRcode","捆包：IST0000001 品种：");
+                //homeIntent.putExtra("QRcode","IST0000002");
                 homeIntent.putExtra("status",1);
                 startActivity(homeIntent);
                 finish();

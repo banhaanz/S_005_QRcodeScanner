@@ -21,6 +21,11 @@ import java.util.List;
             super(context, DataSource.DATABASE_NAME,null,DataSource.DATABASE_VERSION);
         }
 
+        public DBHelper(){
+            super(null,DataSource.DATABASE_NAME,null,DataSource.DATABASE_VERSION);
+
+        }
+
         @Override
         public void onCreate(SQLiteDatabase db) {
             String CREATE_DATASOURCE_TABLE = String.format("CREATE TABLE %s " +
@@ -136,8 +141,17 @@ import java.util.List;
         }
 
         //Update 1 data
-        public void updateFriend(){
+        public void updateDataSource(DataSource dataSource,String index){
+            sqLiteDatabase = this.getWritableDatabase();
 
+            ContentValues values =new ContentValues();
+            values.put(DataSource.Column.URL,dataSource.getUrl());
+            values.put(DataSource.Column.STATUS,dataSource.getStatus());
+
+            sqLiteDatabase.update(DataSource.TABLE,values,DataSource.Column.ID+"=?",
+                    new String[]{String.valueOf(index)});
+
+            sqLiteDatabase.close();
         }
 
         //Delete 1 data
