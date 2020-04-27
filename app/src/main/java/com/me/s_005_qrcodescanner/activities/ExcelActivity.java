@@ -59,6 +59,7 @@ public class ExcelActivity extends AppCompatActivity {
         back2homeBtn();
 
         //String URL = "https://banhaanz.github.io/resources/story.xls"; 1
+        //test
         String URL = "https://banhaanz.github.io/resources/ISTEEL.xls";
         final String image = "https://banhaanz.github.io/resources/img/GIcoil.jpg";
         number = new ArrayList<>();
