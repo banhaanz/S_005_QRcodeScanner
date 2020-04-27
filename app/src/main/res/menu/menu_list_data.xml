@@ -17,8 +17,8 @@
         android:title="add"
         app:showAsAction="always" />
     <item
-        android:id="@+id/show_all_btn"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:id="@+id/go2home_btn"
+        android:icon="@android:drawable/ic_menu_revert"
         android:orderInCategory="100"
         android:title="add"
         app:showAsAction="always" />

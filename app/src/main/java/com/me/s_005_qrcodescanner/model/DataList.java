@@ -8,7 +8,9 @@ public class DataList {
     private List<String> data;
     private List<String> url;
     private List<String> number;
+    private List<String> scanned;
     private List<String> status;
+    private List<String> timestamp;
 
     public List<String> getId() {
         return id;
@@ -50,11 +52,27 @@ public class DataList {
         this.number = number;
     }
 
+    public List<String> getScanned() {
+        return scanned;
+    }
+
+    public void setScanned(List<String> scanned) {
+        this.scanned = scanned;
+    }
+
     public List<String> getStatus() {
         return status;
     }
 
     public void setStatus(List<String> status) {
         this.status = status;
+    }
+
+    public List<String> getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(List<String> timestamp) {
+        this.timestamp = timestamp;
     }
 }

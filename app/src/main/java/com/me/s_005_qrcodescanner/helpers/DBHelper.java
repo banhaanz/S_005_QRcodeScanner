@@ -29,14 +29,16 @@ import java.util.List;
         @Override
         public void onCreate(SQLiteDatabase db) {
             String CREATE_DATASOURCE_TABLE = String.format("CREATE TABLE %s " +
-                            "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT , %s TEXT)",
+                            "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT , %s TEXT,  %s TEXT,  %s TEXT)",
                     DataSource.TABLE,
                     DataSource.Column.ID,
                     DataSource.Column.TITLE,
                     DataSource.Column.DATA,
                     DataSource.Column.URL,
                     DataSource.Column.NUMBER,
-                    DataSource.Column.STATUS);
+                    DataSource.Column.SCANNED,
+                    DataSource.Column.STATUS,
+                    DataSource.Column.TIMESTAMP);
 
             Log.i(TAG, CREATE_DATASOURCE_TABLE);
 
@@ -62,7 +64,9 @@ import java.util.List;
             List<String> data = new ArrayList<>();
             List<String> url = new ArrayList<>();
             List<String> number = new ArrayList<>();
+            List<String> scanned = new ArrayList<>();
             List<String> status = new ArrayList<>();
+            List<String> timestamp = new ArrayList<>();
 
             //ask to permission to be writable database
             sqLiteDatabase = this.getWritableDatabase();
@@ -80,14 +84,18 @@ import java.util.List;
                 data.add(cursor.getString(2));
                 url.add(cursor.getString(3));
                 number.add(cursor.getString(4));
-                status.add(cursor.getString(5));
+                scanned.add(cursor.getString(5));
+                status.add(cursor.getString(6));
+                timestamp.add(cursor.getString(7));
 
                 dataList.setId(id);
                 dataList.setTitle(title);
                 dataList.setData(data);
                 dataList.setUrl(url);
                 dataList.setNumber(number);
+                dataList.setScanned(scanned);
                 dataList.setStatus(status);
+                dataList.setTimestamp(timestamp);
 
                 cursor.moveToNext();
             }
@@ -106,7 +114,9 @@ import java.util.List;
             values.put(DataSource.Column.DATA,dataSource.getData());
             values.put(DataSource.Column.URL,dataSource.getUrl());
             values.put(DataSource.Column.NUMBER,dataSource.getNumber());
+            values.put(DataSource.Column.SCANNED,dataSource.getScanned());
             values.put(DataSource.Column.STATUS,dataSource.getStatus());
+            values.put(DataSource.Column.TIMESTAMP,dataSource.getTimestamp());
 
             sqLiteDatabase.insert(DataSource.TABLE,null,values);
             sqLiteDatabase.close();
@@ -146,7 +156,9 @@ import java.util.List;
 
             ContentValues values =new ContentValues();
             values.put(DataSource.Column.URL,dataSource.getUrl());
+            values.put(DataSource.Column.SCANNED,dataSource.getScanned());
             values.put(DataSource.Column.STATUS,dataSource.getStatus());
+            values.put(DataSource.Column.TIMESTAMP,dataSource.getTimestamp());
 
             sqLiteDatabase.update(DataSource.TABLE,values,DataSource.Column.ID+"=?",
                     new String[]{String.valueOf(index)});
