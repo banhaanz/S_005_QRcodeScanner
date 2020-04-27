@@ -37,5 +37,8 @@
     <string name="msg_add_mail_content">ADD CONTENT TO THE MAIL</string>
     <string name="msg_scanner_stoped">Barcode scanner has been stopped.</string>
     <string name="error_download_excel">Error in Downloading Excel File</string>
+    <string name="scan_time">Scan time</string>
+    <string name="timestamp_last_update">Timestamp Last update</string>
+    <string name="status">Status</string>
 
 </resources>
