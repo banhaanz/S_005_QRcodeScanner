@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 public class DataSource {
     //Database
     public static final String DATABASE_NAME = "tb_data.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
     public static final String TABLE = "data";
 
     public class Column {
@@ -14,7 +14,9 @@ public class DataSource {
         public static final String DATA = "data";
         public static final String URL = "url";
         public static final String NUMBER = "number";
+        public static final String SCANNED = "scanned";
         public static final String STATUS = "status";
+        public static final String TIMESTAMP = "timestamp";
     }
 
     private int id;
@@ -22,7 +24,9 @@ public class DataSource {
     private String data;
     private String url;
     private String number;
+    private String scanned;
     private String status;
+    private String timestamp;
 
     public int getId() {
         return id;
@@ -64,11 +68,27 @@ public class DataSource {
         this.number = number;
     }
 
+    public String getScanned() {
+        return scanned;
+    }
+
+    public void setScanned(String scanned) {
+        this.scanned = scanned;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

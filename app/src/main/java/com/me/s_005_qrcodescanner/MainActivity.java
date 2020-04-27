@@ -124,10 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 DataList dataList = dbHelper.getDataList();
                 List<String> title = dataList.getTitle();
                 List<String> data = dataList.getData();
+                List<String> scanned = dataList.getScanned();
                 List<String> status = dataList.getStatus();
+                List<String> timestamp = dataList.getTimestamp();
                 askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,200);
                 askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 200);
-                ExcelExporter.export(title,data,status);
+                ExcelExporter.export(title,data,scanned,status,timestamp);
                 Toast.makeText(getApplicationContext(),"Exported at sdcard/iStoreApp/ISTEEL-checked.xls",Toast.LENGTH_SHORT).show();
                 break;
         }

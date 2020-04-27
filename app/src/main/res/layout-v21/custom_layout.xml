@@ -27,28 +27,25 @@
                 android:id="@+id/cardImg"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
+                android:contentDescription="@string/img01"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.03"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_launcher_background"
-                tools:ignore="ContentDescription,VectorDrawableCompat"
-                android:contentDescription="@string/img01" />
+                tools:ignore="ContentDescription,VectorDrawableCompat" />
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="220dp"
-                android:layout_height="27dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="138dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="9dp"
                 android:text="@string/sample_title"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
                 app:layout_constraintStart_toEndOf="@+id/num"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,14 +54,15 @@
                 android:layout_width="33dp"
                 android:layout_height="27dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="9dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/sample_title"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/desc"
                 app:layout_constraintStart_toEndOf="@+id/cardImg"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/desc"
@@ -79,17 +77,47 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
+                android:id="@+id/scantime"
+                android:layout_width="89dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/scan_time"
+                app:layout_constraintBottom_toTopOf="@+id/status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
                 android:id="@+id/status"
-                android:layout_width="87dp"
+                android:layout_width="86dp"
                 android:layout_height="21dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/sample_description_for_the_given_title"
+                android:layout_marginBottom="4dp"
+                android:text="@string/status"
+                app:layout_constraintBottom_toTopOf="@+id/lastscan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.852"
+                app:layout_constraintStart_toEndOf="@+id/desc" />
+
+            <TextView
+                android:id="@+id/lastscan"
+                android:layout_width="274dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="2dp"
+                android:text="@string/timestamp_last_update"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/desc"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/cardImg"
+                app:layout_constraintTop_toBottomOf="@+id/desc" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

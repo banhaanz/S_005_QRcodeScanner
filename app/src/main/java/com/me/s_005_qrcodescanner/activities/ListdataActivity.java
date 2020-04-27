@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,9 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.me.s_005_qrcodescanner.MainActivity;
 import com.me.s_005_qrcodescanner.R;
 import com.me.s_005_qrcodescanner.helpers.DBHelper;
 import com.me.s_005_qrcodescanner.helpers.adapters.ExcelImportAdapter;
+import com.me.s_005_qrcodescanner.helpers.publics.AppUtils;
 import com.me.s_005_qrcodescanner.model.DataList;
 import com.me.s_005_qrcodescanner.model.DataSource;
 
@@ -29,7 +30,7 @@ import java.util.List;
 public class ListdataActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DataList dataList;
-    List<String> id,title,data,url,number,status1;
+    List<String> id,title,data,url,number,scanned,status1,timestamp;
     ExcelImportAdapter adapter;
     ProgressBar progressBar;
     DataSource dataSource;
@@ -69,13 +70,17 @@ public class ListdataActivity extends AppCompatActivity {
             data = new ArrayList<>();
             url = new ArrayList<>();
             number = new ArrayList<>();
+            scanned = new ArrayList<>();
             status1 = new ArrayList<>();
+            timestamp = new ArrayList<>();
 
             title = dataList.getTitle();
             data = dataList.getData();
             url = dataList.getUrl();
             number = dataList.getNumber();
+            scanned = dataList.getScanned();
             status1 = dataList.getStatus();
+            timestamp = dataList.getTimestamp();
 
             dataSource = new DataSource();
             if(url != null) {
@@ -84,7 +89,9 @@ public class ListdataActivity extends AppCompatActivity {
                     dataSource.setData(data.get(i));
                     dataSource.setUrl(url.get(i));
                     dataSource.setNumber(number.get(i));
+                    dataSource.setScanned(scanned.get(i));
                     dataSource.setStatus(status1.get(i));
+                    dataSource.setTimestamp(AppUtils.getTimestamp());
                 } //for
 
                 showData(); //show all data list
@@ -115,8 +122,11 @@ public class ListdataActivity extends AppCompatActivity {
                 Toast.makeText(getApplication(),"Show unchecked items.",Toast.LENGTH_SHORT).show();
                 overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 break;
-            case R.id.show_all_btn:
-                Toast.makeText(getApplication(),"Show all items",Toast.LENGTH_SHORT).show();
+            case R.id.go2home_btn:
+                Toast.makeText(getApplication(),"Return to home",Toast.LENGTH_SHORT).show();
+                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(homeIntent);
+                finish();
                 overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 break;
         }
@@ -137,7 +147,7 @@ public class ListdataActivity extends AppCompatActivity {
 
     private void showData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExcelImportAdapter(this,number,title,url,data,status1);
+        adapter = new ExcelImportAdapter(this,number,title,url,data,status1,scanned,timestamp);
         recyclerView.setAdapter(adapter);
     } //showData
 
@@ -153,15 +163,28 @@ public class ListdataActivity extends AppCompatActivity {
             int o = 0; //counter number
 
             //Loop for checking List which QRCode = title data
-            for(int i=0; i<dataList.getTitle().size();i++){
-                if(coilCheck.equals("捆包："+dataList.getTitle().get(i))){
+            for(int i=0; i<dataList.getData().size();i++){
+                if(coilCheck.equals("捆包："+dataList.getData().get(i))){
                     String img_checked = "https://banhaanz.github.io/resources/img/GIcoil-1.jpg";
                     //get ID of update data
                     String id = dataList.getId().get(i);
 
+                    //set and update URL check status image
                     List<String> img = dataList.getUrl();
                     img.set(i,img_checked);
                     String img2 = dataList.getUrl().get(i);
+
+                    //set and update scanned?
+                    List<String> scanned = dataList.getScanned();
+                    if(scanned.get(i).equals("0")){
+                        scanned.set(i,statusCheck);
+                    }else {
+                        int a = Integer.parseInt(statusCheck);
+                        int b = Integer.parseInt(scanned.get(i));
+                        int c = a+b;
+                        scanned.set(i,String.valueOf(c));
+                    }
+                    String scanned2 = dataList.getScanned().get(i);
 
                     //get Status of update data
                     List<String> e = dataList.getStatus();
@@ -174,9 +197,11 @@ public class ListdataActivity extends AppCompatActivity {
                     //set Status value & update DB
                     dataSource.setUrl(img2);
                     dataSource.setStatus(b);
+                    dataSource.setScanned(scanned2);
+                    dataSource.setTimestamp(AppUtils.getTimestamp());
                     dbHelper.updateDataSource(dataSource,id);
 
-                    Toast.makeText(getApplication(), coilCheck + " : OK / Status=" + id,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), coilCheck + " : OK / ID=" + id,Toast.LENGTH_LONG).show();
                     o++; //if 'OK', counter number(o) +1
 
                 }

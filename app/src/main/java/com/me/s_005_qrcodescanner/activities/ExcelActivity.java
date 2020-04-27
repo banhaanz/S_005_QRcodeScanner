@@ -26,6 +26,7 @@ import com.me.s_005_qrcodescanner.MainActivity;
 import com.me.s_005_qrcodescanner.R;
 import com.me.s_005_qrcodescanner.helpers.DBHelper;
 import com.me.s_005_qrcodescanner.helpers.adapters.ExcelImportAdapter;
+import com.me.s_005_qrcodescanner.helpers.publics.AppUtils;
 import com.me.s_005_qrcodescanner.model.DataSource;
 
 import java.io.File;
@@ -36,7 +37,7 @@ import java.util.List;
 public class ExcelActivity extends AppCompatActivity {
     Workbook workbook;
     AsyncHttpClient asyncHttpClient;
-    List<String> status,number,storyTitle,storyContent,thumbImages;
+    List<String> timestamp,scanned,status,number,storyTitle,storyContent,thumbImages;
     RecyclerView recyclerView;
     ExcelImportAdapter adapter;
     ProgressBar progressBar;
@@ -58,15 +59,16 @@ public class ExcelActivity extends AppCompatActivity {
         //show scan QRCode/Barcode btn
         back2homeBtn();
 
-        //String URL = "https://banhaanz.github.io/resources/story.xls"; 1
-        //test
         String URL = "https://banhaanz.github.io/resources/ISTEEL.xls";
+        //String URL = "https://banhaanz.github.io/resources/ISTEEL.xls";
         final String image = "https://banhaanz.github.io/resources/img/GIcoil.jpg";
         number = new ArrayList<>();
         storyTitle = new ArrayList<>();
         storyContent = new ArrayList<>();
         thumbImages = new ArrayList<>();
+        scanned = new ArrayList<>();
         status = new ArrayList<>();
+        timestamp = new ArrayList<>();
 
         asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.get(URL, new FileAsyncHttpResponseHandler(this) {
@@ -104,7 +106,9 @@ public class ExcelActivity extends AppCompatActivity {
                                 storyContent.add(row[2].getContents());
                                 thumbImages.add(image);
                                 number.add("" + i);
+                                scanned.add("0");
                                 status.add("0");
+                                timestamp.add("0");
                             }
                         }
 
@@ -116,7 +120,9 @@ public class ExcelActivity extends AppCompatActivity {
                             dataSource.setData(storyContent.get(i));
                             dataSource.setUrl(thumbImages.get(i));
                             dataSource.setNumber(number.get(i));
+                            dataSource.setScanned(scanned.get(i));
                             dataSource.setStatus(status.get(i));
+                            dataSource.setTimestamp(timestamp.get(i));
 
                             dbHelper.addDataSource(dataSource);
                         }
@@ -133,7 +139,7 @@ public class ExcelActivity extends AppCompatActivity {
 
     private void showData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ExcelImportAdapter(this,number,storyTitle,thumbImages,storyContent,status);
+        adapter = new ExcelImportAdapter(this,number,storyTitle,thumbImages,storyContent,status,scanned,timestamp);
         recyclerView.setAdapter(adapter);
     } //showData
 

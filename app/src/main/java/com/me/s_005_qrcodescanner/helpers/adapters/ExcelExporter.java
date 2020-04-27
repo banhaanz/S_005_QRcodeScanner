@@ -20,7 +20,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
 public class ExcelExporter {
-    public static void export(List<String> title, List<String> data, List<String> status){
+    public static void export(List<String> title, List<String> data, List<String> scanned, List<String> status, List<String> timestamp ){
         File sd = Environment.getExternalStorageDirectory();
         String csvFile = "ISTEEL-checked.xls";
         String foldername = "/iStoreApp";
@@ -41,13 +41,15 @@ public class ExcelExporter {
             //Excel sheetA first sheetA
             WritableSheet sheetA = workbook.createSheet("Steel Checklist",0);
 
-            List<String> col1 = Arrays.asList("NO.","OWNER CODE","COIL NO.","STATUS");
+            List<String> col1 = Arrays.asList("NO.","OWNER CODE","COIL NO.","SCANNED","STATUS","LAST SCANNING");
             List<String> row1 = Arrays.asList("row1","row1","row1","row1","row1");
 
             sheetA.setColumnView(0,6);
             sheetA.setColumnView(1,16);
             sheetA.setColumnView(2,16);
             sheetA.setColumnView(3,12);
+            sheetA.setColumnView(4,12);
+            sheetA.setColumnView(5,24);
 
 
             for(int i=0;i<col1.size();i++){
@@ -57,7 +59,9 @@ public class ExcelExporter {
                 sheetA.addCell(new Label(0,i+1,String.valueOf(i+1)));
                 sheetA.addCell(new Label(1,i+1,title.get(i)));
                 sheetA.addCell(new Label(2,i+1,data.get(i)));
-                sheetA.addCell(new Label(3,i+1,status.get(i)));
+                sheetA.addCell(new Label(3,i+1,scanned.get(i)));
+                sheetA.addCell(new Label(4,i+1,status.get(i)));
+                sheetA.addCell(new Label(5,i+1,timestamp.get(i)));
             }
 
             //column and row titles
