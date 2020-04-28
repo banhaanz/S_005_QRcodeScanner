@@ -1,0 +1,6 @@
+iStoreApp v0101
+- Beta version
+
+iStoreApp v0102
+- Change static value in App
+- Change resource file from Aek github --> Sack github

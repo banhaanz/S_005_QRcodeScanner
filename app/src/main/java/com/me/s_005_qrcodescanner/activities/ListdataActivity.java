@@ -165,7 +165,7 @@ public class ListdataActivity extends AppCompatActivity {
             //Loop for checking List which QRCode = title data
             for(int i=0; i<dataList.getData().size();i++){
                 if(coilCheck.equals("捆包："+dataList.getData().get(i))){
-                    String img_checked = "https://banhaanz.github.io/resources/img/GIcoil-1.jpg";
+                    String img_checked = AppUtils.URL_IMG_CHECKED;
                     //get ID of update data
                     String id = dataList.getId().get(i);
 

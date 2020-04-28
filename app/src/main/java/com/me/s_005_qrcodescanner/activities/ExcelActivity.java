@@ -59,10 +59,9 @@ public class ExcelActivity extends AppCompatActivity {
         //show scan QRCode/Barcode btn
         back2homeBtn();
 
-        //String host = "https://banhaanz.github.io/resources";
-        String host = "https://siwakornthinyai.github.io/Excel_istock";
-        String URL = host + "/ISTEEL.xls";
-        final String image = host + "/img/GIcoil.jpg";
+        String host = AppUtils.URL_HOST_DATA;
+        String URL = AppUtils.DATA_EXCEL_FILE;
+        final String image = AppUtils.URL_IMG_UNCHECKED;
         number = new ArrayList<>();
         storyTitle = new ArrayList<>();
         storyContent = new ArrayList<>();
