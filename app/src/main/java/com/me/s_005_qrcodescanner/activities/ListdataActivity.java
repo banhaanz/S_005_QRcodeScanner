@@ -125,9 +125,9 @@ public class ListdataActivity extends AppCompatActivity {
             case R.id.go2home_btn:
                 Toast.makeText(getApplication(),"Return to home",Toast.LENGTH_SHORT).show();
                 Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 startActivity(homeIntent);
                 finish();
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -141,6 +141,7 @@ public class ListdataActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent scanIntent = new Intent(getApplicationContext(), QRScannerActivity.class);
                 startActivity(scanIntent);
+                finish();
             }
         });
     }  //go2QRScannerPageBtn()
