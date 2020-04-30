@@ -4,3 +4,5 @@ iStoreApp v0101
 iStoreApp v0102
 - Change static value in App
 - Change resource file from Aek github --> Sack github
+- Change some font height
+- Display app version on first page

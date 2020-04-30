@@ -61,7 +61,7 @@ public class ExcelImportAdapter extends RecyclerView.Adapter<ExcelImportAdapter.
                 .into(holder.thumbnail);
         holder.title.setText(title);
         holder.desc.setText("Ref NO: "+desc);
-        holder.num.setText(num);
+        holder.num.setText(num+".");
         holder.scanned.setText("times: "+scanned);
         holder.timestamp.setText("Last scan: "+timestamp);
         holder.status.setText("In stock: " + status);
